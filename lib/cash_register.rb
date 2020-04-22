@@ -2,7 +2,7 @@ require 'pry'
 
 class CashRegister
 
-    attr_accessor :total, :discount, :apply_discount, :items
+    attr_accessor :total, :discount, :items, :last_transaction
 
 
     def initialize(discount=0)
@@ -19,12 +19,16 @@ class CashRegister
 #add_item accepts a title and a price and increases the total
 #add_item requires the arguments 'title' and 'price'
 #add_item allows optional quantity, optional means default value needed
-    def add_item(title, price, quantity=1)
+    def add_item(product, price, quantity=1)
 # binding.pry
-        @total = @total + price * quantity
+        self.total = @total + price * quantity
 
 # push items * quantity
-        @items.push(title)
+        quantity.times do
+            @items << product
+        end
+        self.last_transaction = price * quantity
+        
 # binding.pry
     end
 
@@ -51,16 +55,14 @@ class CashRegister
 # items returns an array containing all items that have been added 
 
     def items
-# binding.pry
         return @items
-
-
-
-
 
     end
 
-
+    def void_last_transaction
+        # binding.pry
+        self.total = @total - last_transaction
+    end
 
 
 end
